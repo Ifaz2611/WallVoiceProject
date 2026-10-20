@@ -1,0 +1,74 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+ENV/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# --- ML artifacts (derived, reproducible) ---
+models/
+features/
+runs/
+outputs/
+wandb/
+mlruns/
+lightning_logs/
+*.npy
+*.npz
+*.pkl
+*.joblib
+*.h5
+*.onnx
+*.pt
+*.pth
+*.safetensors
+*.log
+
+# --- Derived / processed data ---
+processed/
+crops/
+augmented/
+annotations/export_*
+
+# --- Dataset images (about 3 GB total) ---
+# Keep the originals out of normal Git history. Store them in Git LFS or an
+# external archive and record checksums in metadata/checksums.sha256.
+# If you enable Git LFS instead, remove the six folder lines below:
+#   git lfs track "DU-Shahbagh/**" ... (see TODO.md)
+DU-Shahbagh/
+Dhanmondi/
+Azimpur-Nilkhet/
+BaileyRoad-Viqarunnisa/
+Buet-Palashi/
+Mirpur-Uttara-Tejgaon/
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Local secrets / config ---
+.env
+.env.*
+!.env.example
+
+
+TODO.MD
