@@ -70,6 +70,43 @@ Use blank cells for unknown or not-yet-reviewed values; do not guess. Agree on c
 - For model evaluation, split by wall/site or collection route when possible, rather than randomly splitting individual photos. Near-duplicate views of the same wall in different splits can inflate results. Check that each area and important label is represented in the evaluation data.
 - Document the intended task (for example, image classification, text transcription, or area-level analysis), label definitions, known collection biases, and any limitations before releasing or training on the dataset.
 
+## KNN baseline (area classification)
+
+A reproducible k-nearest-neighbours baseline predicts the six collection areas
+from the images. It is documented end-to-end in [`results.md`](results.md),
+with label definitions in [`docs/label-guide.md`](docs/label-guide.md).
+
+What is included:
+
+- `scripts/audit.py` — verifies all 1,225 images, finds exact/pHash/CNN
+  near-duplicates, writes `metadata/checksums.sha256` with `--checksums`.
+- `scripts/make_splits.py` — writes leakage-aware `splits/{train,val,test}.csv`
+  (~70/15/15 by area, whole duplicate groups in one split).
+- `scripts/extract_features.py` — raw pixels, HOG + colour histograms, and
+  ResNet-18 embeddings.
+- `scripts/train_knn.py` — grouped CV over PCA size, k, weights, and metric;
+  saves `models/knn_best.joblib` plus selection reports.
+- `scripts/evaluate.py` — one-shot evaluation on the frozen test split.
+- `scripts/visualize_features.py` — PCA + t-SNE sanity check coloured by area.
+
+Quickstart (from a clean checkout with the image archive in place):
+
+```bash
+python -m pip install -r requirements.txt
+python scripts/verify_checksums.py
+python scripts/audit.py --checksums
+python scripts/make_splits.py
+python scripts/extract_features.py --extractor all
+python scripts/train_knn.py
+python scripts/evaluate.py
+```
+
+<!-- Reported test result for the selected HOG pipeline: **accuracy 0.589,
+macro-F1 0.525** (n=185). A balanced logistic regression scores higher on
+validation (macro-F1 0.617); KNN is kept as a transparent baseline, not as the
+best model. Derived files (`features/`, `models/`, `outputs/`) are git-ignored;
+only split lists and the reports are tracked. -->
+
 ## Before sharing or using the dataset
 
 Complete the metadata, document permissions and intended use, review privacy risks, and include a label guide and dataset version/date. State that the locations, collection methods, and image counts may be uneven; do not claim the collection represents all graffiti or public opinion in Dhaka.

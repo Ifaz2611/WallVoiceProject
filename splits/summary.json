@@ -1,0 +1,85 @@
+{
+  "counts": {
+    "test": 185,
+    "train": 854,
+    "val": 186
+  },
+  "group_overlap": {
+    "train_test": 0,
+    "train_val": 0,
+    "val_test": 0
+  },
+  "grouping": {
+    "cnn_cosine_threshold": 0.93,
+    "duplicate_pair_candidates": 17,
+    "groups": 1211,
+    "largest_group": 6,
+    "multi_image_groups": 8,
+    "phash_hamming_threshold": 6
+  },
+  "labels": {
+    "test": {
+      "AZN": 27,
+      "BRV": 21,
+      "BUP": 14,
+      "DMD": 50,
+      "DUS": 60,
+      "MUT": 13
+    },
+    "train": {
+      "AZN": 119,
+      "BRV": 94,
+      "BUP": 62,
+      "DMD": 215,
+      "DUS": 303,
+      "MUT": 61
+    },
+    "val": {
+      "AZN": 26,
+      "BRV": 21,
+      "BUP": 14,
+      "DMD": 47,
+      "DUS": 65,
+      "MUT": 13
+    }
+  },
+  "no_group_spans_splits": true,
+  "per_area": {
+    "Azimpur-Nilkhet": {
+      "test": 27,
+      "train": 119,
+      "val": 26
+    },
+    "BaileyRoad-Viqarunnisa": {
+      "test": 21,
+      "train": 94,
+      "val": 21
+    },
+    "Buet-Palashi": {
+      "test": 14,
+      "train": 62,
+      "val": 14
+    },
+    "DU-Shahbagh": {
+      "test": 60,
+      "train": 303,
+      "val": 65
+    },
+    "Dhanmondi": {
+      "test": 50,
+      "train": 215,
+      "val": 47
+    },
+    "Mirpur-Uttara-Tejgaon": {
+      "test": 13,
+      "train": 61,
+      "val": 13
+    }
+  },
+  "seed": 42,
+  "split_fractions": {
+    "test": 0.15,
+    "train": 0.7,
+    "val": 0.15
+  }
+}

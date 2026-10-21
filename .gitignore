@@ -70,5 +70,5 @@ desktop.ini
 .env.*
 !.env.example
 
-
-TODO.MD
+# Local training instructions
+agent.md

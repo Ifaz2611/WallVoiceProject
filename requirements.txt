@@ -1,0 +1,19 @@
+# Pinned Python dependencies for the WallVoice24BD KNN baseline.
+# Python 3.12+ (developed and verified on Python 3.14.5, Windows).
+# Install with: python -m pip install -r requirements.txt
+#
+# HOG features are computed with OpenCV (cv2.HOGDescriptor); scikit-image is
+# intentionally not required. ResNet-18 weights are downloaded from
+# download.pytorch.org the first time features are extracted.
+
+numpy==2.4.4
+pandas==2.3.3
+scikit-learn==1.8.0
+Pillow==12.2.0
+opencv-python-headless==4.13.0.92
+matplotlib==3.10.8
+seaborn==0.13.2
+tqdm==4.67.3
+joblib==1.5.3
+torch==2.12.1
+torchvision==0.27.1
