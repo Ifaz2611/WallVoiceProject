@@ -35,9 +35,9 @@ change, against the ignored image archive verified by
 - 2 pHash near-duplicate pairs (Hamming ≤ 6); 15 ResNet-18 near-duplicate pairs
   (cosine ≥ 0.93). Together they form **1,211 groups**: 8 groups have more than
   one image, the largest has 6 images, and 3 groups cross area folders.
-- All rows are `review_status=unreviewed`; a six-image spot check (one per
-  area) showed graffiti in every sampled image, but the full manual
-  non-graffiti/privacy review is still pending.
+- All rows are `review_status=unreviewed`; a 48-image random sample (8 per
+  area) showed graffiti in every sampled image, so no images were flagged for
+  removal. The full 1,225-image non-graffiti/privacy review is still pending.
 - SHA-256 checksums for every original image are in
   `metadata/checksums.sha256`.
 
@@ -207,15 +207,18 @@ written with LF line endings so both methods work.
   the inventory are reported.
 - `latitude`/`longitude` remain blank in `metadata/images.csv`.
 - A full face/plate/privacy review of all 1,225 images has **not** been done.
-  Only a six-image spot check was performed. Before any public image release,
-  complete that review and record the result in `review_status`.
+  A 48-image random sample (8 per area) was reviewed: no real people or vehicle
+  plates were visible, but `AZN-0153` contains a wall painting of a child's
+  face, which should be considered when deciding whether to publish images.
+  Before any public image release, complete the full review and record the
+  result in `review_status`.
 
 ## 10. What remains manual
 
 The code paths in `TODO.md` are implemented. These items still need a human:
 
-- full manual review of a sample per area and removal/flagging of non-graffiti
-  images (`review_status=excluded`, originals untouched);
+- full manual review of all 1,225 images and removal/flagging of non-graffiti
+  images (a 48-image sample is done; originals untouched);
 - filling `source`, `license`, `capture_date` where verifiable;
 - full privacy review before publishing images;
 - deciding the image-archive hosting policy (this repo uses the external

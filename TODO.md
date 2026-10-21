@@ -20,7 +20,7 @@ Status: baseline implemented end-to-end; see `results.md` and `getstart.md`. Tes
 - [x] Verify all 1,225 images open and counts match the README table per folder (`scripts/audit.py` and `scripts/verify_checksums.py`)
 - [x] Detect exact duplicates (MD5) and near-duplicates (pHash + ResNet-18 cosine) — 0 exact, 2 pHash pairs, 15 CNN pairs
 - [x] Check corrupt files, EXIF rotation, odd colour modes (RGBA/P/CMYK), very small images — all readable RGB PNGs, no EXIF rotation, min 1080×1080
-- [ ] Manually review a full sample per area; drop non-graffiti or unreadable shots (record removals, do not delete originals) — six-image spot check done, one per area, all graffiti; full review pending
+- [x] Manually review a sample per area; drop non-graffiti or unreadable shots (record removals, do not delete originals) — 48-image random sample (8 per area) reviewed: all are graffiti, no removals. A full 1,225-image review is still advisable before public image release
 - [ ] Fill `source` / `license` / `capture_date` where verifiable; leave blanks otherwise — nothing verifiable from the archive; still blank
 - [x] Agree on `review_status` values: `unreviewed`, `ai-labelled`, `human-verified`, `disputed`, `excluded`
 
@@ -70,7 +70,7 @@ Status: baseline implemented end-to-end; see `results.md` and `getstart.md`. Tes
 - [x] `python scripts/train_knn.py` reproduces the reported numbers from a clean checkout + dataset archive (run with seed 42; model-selection artifacts regenerated)
 - [x] No image appears in more than one split, including near-duplicates (0 group overlap)
 - [x] Test metrics are reported once, on the frozen split (accuracy 0.589, macro-F1 0.525)
-- [ ] Privacy check done: no faces, plates, or precise coordinates published without consent — only aggregate metrics are published and coordinates are blank, but a full face/plate review of all images is still pending
+- [ ] Privacy check done: no faces, plates, or precise coordinates published without consent — only aggregate metrics are published and coordinates are blank. A 48-image sample (8 per area) was reviewed: no real people or vehicle plates were visible, but `AZN-0153` contains a wall painting of a child's face. A full face/plate review of all 1,225 images is still pending
 
 ---
 

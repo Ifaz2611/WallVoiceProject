@@ -97,7 +97,7 @@ python scripts/plot_results.py
 ## 3. Environment Setup
 
 ### Prerequisites
-- **Python**: Version 3.10 to 3.14 (tested and verified on Python 3.14.5).
+- **Python**: Version 3.12 or newer (tested and verified on Python 3.14.5).
 - **OS**: Windows, macOS, or Linux.
 - **Git** and command terminal.
 
@@ -156,7 +156,7 @@ Check that all 1,225 images match the official SHA-256 cryptographic hashes:
 ```bash
 python scripts/verify_checksums.py
 ```
-*Expected output: `Checked 1225 files from metadata\checksums.sha256. All checksums match.`*
+*Expected output: `Checked 1225 files from …/metadata/checksums.sha256` followed by `All checksums match.`*
 
 ### Run Dataset Audit & Near-Duplicate Detection
 ```bash
@@ -390,7 +390,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 The dataset has natural collection imbalance: `DUS` accounts for ~35% of all images, whereas `MUT` accounts for ~7%. Standard accuracy is dominated by the majority class. **Macro-F1** weights every area equally, providing an honest measure of performance across all regions.
 
 ### Q4: Can I use GPU acceleration?
-The baseline KNN and scikit-learn pipelines run efficiently on CPU (training takes under 2 minutes). For ResNet-18 feature extraction, PyTorch will automatically utilize CUDA if a compatible GPU and PyTorch CUDA build are installed.
+The baseline KNN and scikit-learn pipelines run on CPU; the full three-extractor grid can take several minutes, while a single extractor or `--quick` is faster. For ResNet-18 feature extraction, PyTorch will automatically utilize CUDA if a compatible GPU and PyTorch CUDA build are installed.
 
 ### Q5: How do I display the plots directly on screen?
 Run:
