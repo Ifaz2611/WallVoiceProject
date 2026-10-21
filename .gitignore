@@ -10,6 +10,7 @@ dist/
 venv/
 env/
 ENV/
+myenv/
 .ipynb_checkpoints/
 .pytest_cache/
 .mypy_cache/
@@ -72,3 +73,5 @@ desktop.ini
 
 # Local training instructions
 agent.md
+
+TODO.md

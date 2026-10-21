@@ -73,25 +73,32 @@ Use blank cells for unknown or not-yet-reviewed values; do not guess. Agree on c
 ## KNN baseline (area classification)
 
 A reproducible k-nearest-neighbours baseline predicts the six collection areas
-from the images. It is documented end-to-end in [`results.md`](results.md),
-with label definitions in [`docs/label-guide.md`](docs/label-guide.md).
+from the images. It is documented end-to-end in [
+esults.md](results.md),
+with label definitions in [docs/label-guide.md](docs/label-guide.md).
+
+For a complete step-by-step setup and training walkthrough, see [**getstart.md**](getstart.md).
 
 What is included:
 
-- `scripts/audit.py` — verifies all 1,225 images, finds exact/pHash/CNN
-  near-duplicates, writes `metadata/checksums.sha256` with `--checksums`.
-- `scripts/make_splits.py` — writes leakage-aware `splits/{train,val,test}.csv`
+- scripts/verify_checksums.py — validates all images against published SHA-256 hashes.
+- scripts/audit.py — verifies all 1,225 images, finds exact/pHash/CNN
+  near-duplicates, writes metadata/checksums.sha256 with --checksums.
+- scripts/make_splits.py — writes leakage-aware splits/{train,val,test}.csv
   (~70/15/15 by area, whole duplicate groups in one split).
-- `scripts/extract_features.py` — raw pixels, HOG + colour histograms, and
+- scripts/extract_features.py — raw pixels, HOG + colour histograms, and
   ResNet-18 embeddings.
-- `scripts/train_knn.py` — grouped CV over PCA size, k, weights, and metric;
-  saves `models/knn_best.joblib` plus selection reports.
-- `scripts/evaluate.py` — one-shot evaluation on the frozen test split.
-- `scripts/visualize_features.py` — PCA + t-SNE sanity check coloured by area.
+- scripts/train_knn.py — grouped CV over PCA size, k, weights, and metric;
+  saves models/knn_best.joblib plus selection reports and training plot.
+- scripts/evaluate.py — one-shot evaluation on the frozen test split.
+- scripts/visualize_features.py — PCA + t-SNE sanity check coloured by area.
+- scripts/plot_results.py — visualizes performance charts (outputs/training-performance.png
+  and outputs/evaluation-performance.png) for accuracy, loss/error rate, hyperparameter curves,
+  per-class metrics, and confusion matrices.
 
 Quickstart (from a clean checkout with the image archive in place):
 
-```bash
+`ash
 python -m pip install -r requirements.txt
 python scripts/verify_checksums.py
 python scripts/audit.py --checksums
@@ -99,13 +106,15 @@ python scripts/make_splits.py
 python scripts/extract_features.py --extractor all
 python scripts/train_knn.py
 python scripts/evaluate.py
-```
+python scripts/plot_results.py
+`
 
 Reported test result for the selected HOG pipeline: **accuracy 0.589,
 macro-F1 0.525** (n=185). A balanced logistic regression scores higher on
 validation (macro-F1 0.617); KNN is kept as a transparent baseline, not as the
-best model. Derived files (`features/`, `models/`, `outputs/`) are git-ignored;
-only split lists and the reports are tracked.
+best model. Derived files (eatures/, models/, outputs/) are git-ignored;
+only split lists and the reports are tracked. Charts and metrics are saved to
+outputs/training-performance.png and outputs/evaluation-performance.png.
 
 ## Before sharing or using the dataset
 

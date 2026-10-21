@@ -187,6 +187,19 @@ def main() -> int:
         f"weighted-F1: {evaluation['metrics']['weighted_f1']:.4f}"
     )
     print(f"Wrote {output_json.relative_to(common.ROOT)}")
+
+    # Automatically generate test evaluation performance chart
+    try:
+        import plot_results
+
+        eval_plot = plot_results.plot_evaluation_dashboard(
+            output_json, common.OUTPUTS_DIR
+        )
+        if eval_plot:
+            print(f"Generated evaluation plot: {eval_plot.relative_to(common.ROOT)}")
+    except Exception as exc:
+        print(f"Note: Could not generate evaluation plot automatically ({exc})")
+
     return 0
 
 

@@ -19,7 +19,7 @@ from collections import Counter
 from pathlib import Path
 
 import pandas as pd
-from PIL import Image, ImageOps
+from PIL import Image, ImageDraw, ImageOps
 from tqdm import tqdm
 
 import common
@@ -37,7 +37,37 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Write SHA-256 checksums to metadata/checksums.sha256.",
     )
+    parser.add_argument(
+        "--sample-sheets",
+        action="store_true",
+        help="Write a contact sheet of 8 random images per area for manual review.",
+    )
     return parser.parse_args()
+
+
+def write_sample_sheets(df: pd.DataFrame, per_area: int = 8) -> list[Path]:
+    """Write review contact sheets under outputs/audit/sample-sheets/."""
+    directory = common.AUDIT_DIR / "sample-sheets"
+    directory.mkdir(parents=True, exist_ok=True)
+    cell_width, cell_height = 240, 180
+    columns = 4
+    rows = (per_area + columns - 1) // columns
+    written = []
+    for area, subset in df.groupby("area", sort=True):
+        sample = subset.sample(n=min(per_area, len(subset)), random_state=common.RANDOM_SEED)
+        sheet = Image.new("RGB", (columns * cell_width, rows * (cell_height + 16)), "white")
+        draw = ImageDraw.Draw(sheet)
+        for index, (_, record) in enumerate(sample.iterrows()):
+            image = common.open_rgb(common.image_path(record.relative_path))
+            thumbnail = ImageOps.fit(image, (cell_width, cell_height))
+            x = (index % columns) * cell_width
+            y = (index // columns) * (cell_height + 16)
+            sheet.paste(thumbnail, (x, y))
+            draw.text((x + 4, y + cell_height + 2), record.image_id, fill="black")
+        path = directory / f"{area}.png"
+        sheet.save(path)
+        written.append(path)
+    return written
 
 
 def inspect_image(path: Path) -> dict:
@@ -233,6 +263,10 @@ def main() -> int:
     if args.checksums:
         checksum_path = common.write_checksums()
         print(f"Wrote {checksum_path.relative_to(common.ROOT)}")
+
+    if args.sample_sheets:
+        sheets = write_sample_sheets(df)
+        print(f"Wrote {len(sheets)} sample sheets to {(common.AUDIT_DIR / 'sample-sheets').relative_to(common.ROOT)}")
 
     printable = {
         key: summary[key]

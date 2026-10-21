@@ -139,7 +139,8 @@ Confusion matrix (rows = true, columns = predicted):
 
 Artifacts: `outputs/evaluation.json`,
 `outputs/classification-report.txt`, `outputs/confusion-matrix-test.png`,
-`outputs/misclassified-test.png`, `outputs/test-predictions.csv`.
+`outputs/misclassified-test.png`, `outputs/test-predictions.csv`,
+`outputs/training-performance.png`, `outputs/evaluation-performance.png`.
 
 ## 7. Limitations and KNN-specific issues
 
@@ -178,7 +179,13 @@ python scripts/make_splits.py
 python scripts/extract_features.py --extractor all
 python scripts/train_knn.py
 python scripts/evaluate.py
+python scripts/plot_results.py
 ```
+
+For a detailed setup and training guide for new users, see [`getstart.md`](getstart.md).
+Visual performance charts (`outputs/training-performance.png` and
+`outputs/evaluation-performance.png`) are automatically generated upon training and
+evaluation, and can also be viewed or refreshed at any time with `python scripts/plot_results.py`.
 
 `evaluate.py` refuses to overwrite an existing test evaluation unless
 `--force` is passed. All reported numbers above come from the single frozen

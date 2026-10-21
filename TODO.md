@@ -4,7 +4,7 @@ Goal: build a reproducible k-nearest-neighbours (KNN) baseline over the 1,225 wa
 
 Keep originals untouched. All derived files (features, models, predictions) go in ignored folders.
 
-Status: baseline implemented end-to-end; see `results.md`. Test accuracy **0.589**, macro-F1 **0.525** on the frozen split (n=185, evaluated once). Remaining unchecked items are manual review tasks, not code.
+Status: baseline implemented end-to-end; see `results.md` and `getstart.md`. Test accuracy **0.589**, macro-F1 **0.525** on the frozen split (n=185, evaluated once). Remaining unchecked items are manual review tasks, not code.
 
 ---
 
@@ -17,7 +17,7 @@ Status: baseline implemented end-to-end; see `results.md`. Test accuracy **0.589
 
 ## 1. Data audit
 
-- [x] Verify all 1,225 images open and counts match the README table per folder (`scripts/audit.py`)
+- [x] Verify all 1,225 images open and counts match the README table per folder (`scripts/audit.py` and `scripts/verify_checksums.py`)
 - [x] Detect exact duplicates (MD5) and near-duplicates (pHash + ResNet-18 cosine) — 0 exact, 2 pHash pairs, 15 CNN pairs
 - [x] Check corrupt files, EXIF rotation, odd colour modes (RGBA/P/CMYK), very small images — all readable RGB PNGs, no EXIF rotation, min 1080×1080
 - [ ] Manually review a full sample per area; drop non-graffiti or unreadable shots (record removals, do not delete originals) — six-image spot check done, one per area, all graffiti; full review pending
@@ -57,9 +57,11 @@ Status: baseline implemented end-to-end; see `results.md`. Test accuracy **0.589
 
 ## 6. Packaging and documentation
 
-- [x] Add scripts: `scripts/audit.py`, `scripts/make_splits.py`, `scripts/extract_features.py`, `scripts/train_knn.py`, `scripts/evaluate.py` (plus `scripts/visualize_features.py` and shared `scripts/common.py`)
+- [x] Add scripts: `scripts/audit.py`, `scripts/make_splits.py`, `scripts/extract_features.py`, `scripts/train_knn.py`, `scripts/evaluate.py`, `scripts/plot_results.py` (plus `scripts/visualize_features.py`, `scripts/verify_checksums.py`, and shared `scripts/common.py`)
+- [x] Automated plotting of training dashboard (`outputs/training-performance.png`) and evaluation dashboard (`outputs/evaluation-performance.png`)
 - [x] Save the fitted pipeline to `models/knn_<extractor>.joblib` and `models/knn_best.joblib` (ignored by Git) and log the config used
 - [x] Write `results.md`: dataset version, split method, metrics, confusion matrix, limitations, known collection bias
+- [x] Write `getstart.md`: step-by-step onboarding guide for other users to train the model, reproduce splits, and view charts
 - [x] Record environment (`python --version` in `results.md`, `pip freeze > requirements.lock`)
 - [x] Publish checksums (`metadata/checksums.sha256`, 1,225 entries) so a fresh clone can be verified and rebuilt — the archive itself is external
 

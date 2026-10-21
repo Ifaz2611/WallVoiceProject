@@ -385,6 +385,19 @@ def main() -> int:
 
     print("\n" + report)
     print(f"Best model: models/knn_best.joblib (extractor={best_extractor})")
+
+    # Automatically generate training charts
+    try:
+        import plot_results
+
+        plot_path = plot_results.plot_training_dashboard(
+            common.OUTPUTS_DIR / "model-selection.json", common.OUTPUTS_DIR
+        )
+        if plot_path:
+            print(f"Generated training plot: {plot_path.relative_to(common.ROOT)}")
+    except Exception as exc:
+        print(f"Note: Could not generate training plot automatically ({exc})")
+
     return 0
 
 
