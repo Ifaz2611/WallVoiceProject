@@ -101,11 +101,11 @@ python scripts/train_knn.py
 python scripts/evaluate.py
 ```
 
-<!-- Reported test result for the selected HOG pipeline: **accuracy 0.589,
+Reported test result for the selected HOG pipeline: **accuracy 0.589,
 macro-F1 0.525** (n=185). A balanced logistic regression scores higher on
 validation (macro-F1 0.617); KNN is kept as a transparent baseline, not as the
 best model. Derived files (`features/`, `models/`, `outputs/`) are git-ignored;
-only split lists and the reports are tracked. -->
+only split lists and the reports are tracked.
 
 ## Before sharing or using the dataset
 
