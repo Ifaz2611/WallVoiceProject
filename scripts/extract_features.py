@@ -73,6 +73,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--splits", default="train,val,test")
     parser.add_argument("--force", action="store_true", help="Recompute cached features.")
+    parser.add_argument(
+        "--dataset-dir",
+        default=None,
+        help="Path to image dataset directory (default: auto-detected or Dataset1)",
+    )
     return parser.parse_args()
 
 
@@ -172,6 +177,8 @@ def extract_split(
 
 def main() -> int:
     args = parse_args()
+    if args.dataset_dir:
+        common.set_dataset_dir(args.dataset_dir)
     common.ensure_dirs(common.FEATURES_DIR)
     splits = [name.strip() for name in args.splits.split(",") if name.strip()]
     extractors = ["raw", "hog", "resnet"] if args.extractor == "all" else [args.extractor]

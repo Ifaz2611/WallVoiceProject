@@ -102,15 +102,16 @@ python scripts/plot_results.py
 - **Git** and command terminal.
 
 ### 1. Image Folders Check
-Ensure the six image folders are placed in the root of the project directory alongside `metadata/images.csv`:
+Ensure the six image folders are placed inside `Dataset1/` or in the root of the project directory alongside `metadata/images.csv`:
 ```text
 WallVoice24BD/
-├── Azimpur-Nilkhet/
-├── BaileyRoad-Viqarunnisa/
-├── Buet-Palashi/
-├── Dhanmondi/
-├── DU-Shahbagh/
-├── Mirpur-Uttara-Tejgaon/
+├── Dataset1/                  # Or area folders directly in root
+│   ├── Azimpur-Nilkhet/
+│   ├── BaileyRoad-Viqarunnisa/
+│   ├── Buet-Palashi/
+│   ├── Dhanmondi/
+│   ├── DU-Shahbagh/
+│   └── Mirpur-Uttara-Tejgaon/
 ├── metadata/
 │   ├── checksums.sha256
 │   └── images.csv

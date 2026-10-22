@@ -22,12 +22,13 @@ WallVoice24BD/
 ├── README.md
 ├── metadata/
 │   └── images.csv             # One record per image; annotation fields start blank
-├── DU-Shahbagh/                # Original images, unchanged
-├── Dhanmondi/
-├── Azimpur-Nilkhet/
-├── BaileyRoad-Viqarunnisa/
-├── Buet-Palashi/
-└── Mirpur-Uttara-Tejgaon/
+├── Dataset1/                  # Or area folders directly in root
+│   ├── DU-Shahbagh/           # Original images, unchanged
+│   ├── Dhanmondi/
+│   ├── Azimpur-Nilkhet/
+│   ├── BaileyRoad-Viqarunnisa/
+│   ├── Buet-Palashi/
+│   └── Mirpur-Uttara-Tejgaon/
 ```
 
 As the project grows, keep derived or annotated material separate from the original photos:

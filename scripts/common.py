@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import platform
 from pathlib import Path
 from typing import Iterable, Sequence
@@ -63,6 +64,41 @@ RANDOM_SEED = 42
 # ---------------------------------------------------------------------------
 # Metadata and paths
 # ---------------------------------------------------------------------------
+def find_dataset_dir() -> Path:
+    """Find the directory containing the dataset image folders.
+
+    Checks:
+    1. WALLVOICE_DATASET_DIR environment variable
+    2. Subdirectories like Dataset1, dataset1, Dataset, dataset if they contain area folders
+    3. Project ROOT if area folders are in the root
+    4. Fallback to Dataset1 if it exists, else ROOT
+    """
+    env_dir = os.environ.get("WALLVOICE_DATASET_DIR")
+    if env_dir:
+        env_path = Path(env_dir).resolve()
+        if env_path.exists():
+            return env_path
+
+    for name in ("Dataset1", "dataset1", "Dataset", "dataset"):
+        candidate = ROOT / name
+        if candidate.is_dir() and any((candidate / area).exists() for area in EXPECTED_AREA_COUNTS):
+            return candidate
+
+    if any((ROOT / area).exists() for area in EXPECTED_AREA_COUNTS):
+        return ROOT
+
+    return ROOT / "Dataset1" if (ROOT / "Dataset1").exists() else ROOT
+
+
+DATASET_DIR = find_dataset_dir()
+
+
+def set_dataset_dir(path: Path | str) -> None:
+    """Explicitly override the dataset directory."""
+    global DATASET_DIR
+    DATASET_DIR = Path(path).resolve()
+
+
 def load_metadata(path: Path = METADATA_PATH) -> pd.DataFrame:
     """Load the image inventory and normalise path separators."""
     df = pd.read_csv(path, dtype=str, keep_default_na=False)
@@ -77,8 +113,30 @@ def load_metadata(path: Path = METADATA_PATH) -> pd.DataFrame:
     return df
 
 
-def image_path(relative_path: str) -> Path:
-    return ROOT / relative_path
+def image_path(relative_path: str | Path) -> Path:
+    """Resolve an image path, supporting images in DATASET_DIR, ROOT, or subfolders."""
+    rel = Path(relative_path)
+    if rel.is_absolute():
+        return rel
+
+    # Check if already directly resolvable from ROOT
+    candidate = ROOT / rel
+    if candidate.exists():
+        return candidate
+
+    # Check if inside DATASET_DIR
+    candidate = DATASET_DIR / rel
+    if candidate.exists():
+        return candidate
+
+    # Check other candidate dataset folders
+    for name in ("Dataset1", "dataset1", "Dataset2", "dataset2", "Dataset", "dataset"):
+        cand = ROOT / name / rel
+        if cand.exists():
+            return cand
+
+    # Fallback to DATASET_DIR or ROOT
+    return (DATASET_DIR if DATASET_DIR.exists() else ROOT) / rel
 
 
 def open_rgb(path: str | Path) -> Image.Image:
@@ -88,7 +146,16 @@ def open_rgb(path: str | Path) -> Image.Image:
 
 
 def relative(path: str | Path) -> str:
-    return Path(path).resolve().relative_to(ROOT).as_posix()
+    """Return POSIX-style path relative to DATASET_DIR (if within it) or ROOT."""
+    p = Path(path).resolve()
+    try:
+        return p.relative_to(DATASET_DIR.resolve()).as_posix()
+    except ValueError:
+        pass
+    try:
+        return p.relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        return p.as_posix()
 
 
 def ensure_dirs(*paths: Path) -> None:

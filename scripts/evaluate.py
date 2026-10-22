@@ -36,6 +36,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model", default=str(common.MODELS_DIR / "knn_best.joblib"))
     parser.add_argument("--force", action="store_true", help="Overwrite an existing test evaluation.")
     parser.add_argument("--max-mistakes", type=int, default=24)
+    parser.add_argument(
+        "--dataset-dir",
+        default=None,
+        help="Path to image dataset directory (default: auto-detected or Dataset1)",
+    )
     return parser.parse_args()
 
 
@@ -111,6 +116,8 @@ def save_mistakes(ids: pd.DataFrame, predictions: np.ndarray, probabilities: np.
 
 def main() -> int:
     args = parse_args()
+    if args.dataset_dir:
+        common.set_dataset_dir(args.dataset_dir)
     output_json = common.OUTPUTS_DIR / "evaluation.json"
     if output_json.exists() and not args.force:
         raise SystemExit(

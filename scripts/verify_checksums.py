@@ -18,11 +18,18 @@ import common
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checksums", default=str(common.ROOT / "metadata" / "checksums.sha256"))
+    parser.add_argument(
+        "--dataset-dir",
+        default=None,
+        help="Path to image dataset directory (default: auto-detected or Dataset1)",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
+    if args.dataset_dir:
+        common.set_dataset_dir(args.dataset_dir)
     checksum_path = Path(args.checksums)
     if not checksum_path.exists():
         raise SystemExit(f"Checksum file not found: {checksum_path}")

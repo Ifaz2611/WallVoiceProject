@@ -42,6 +42,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Write a contact sheet of 8 random images per area for manual review.",
     )
+    parser.add_argument(
+        "--dataset-dir",
+        default=None,
+        help="Path to image dataset directory (default: auto-detected or Dataset1)",
+    )
     return parser.parse_args()
 
 
@@ -103,6 +108,8 @@ def inspect_image(path: Path) -> dict:
 
 def main() -> int:
     args = parse_args()
+    if args.dataset_dir:
+        common.set_dataset_dir(args.dataset_dir)
     common.ensure_dirs(common.AUDIT_DIR)
 
     df = common.load_metadata()
@@ -122,15 +129,21 @@ def main() -> int:
     # Files on disk that are not listed in metadata.
     listed = set(df["relative_path"])
     extra_files = []
-    if common.ROOT.exists():
+    candidate_roots = [common.DATASET_DIR]
+    if common.ROOT != common.DATASET_DIR:
+        candidate_roots.append(common.ROOT)
+
+    for base_dir in candidate_roots:
+        if not base_dir.exists():
+            continue
         for area in common.EXPECTED_AREA_COUNTS:
-            folder = common.ROOT / area
+            folder = base_dir / area
             if not folder.exists():
                 continue
             for path in folder.rglob("*"):
                 if path.is_file() and path.suffix.lower() in common.IMAGE_EXTENSIONS:
                     rel = common.relative(path)
-                    if rel not in listed:
+                    if rel not in listed and rel not in extra_files:
                         extra_files.append(rel)
 
     # README consistency and metadata integrity.
