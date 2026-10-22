@@ -97,6 +97,22 @@ What is included:
   curves, per-class metrics, and confusion matrices
   (`outputs/training-performance.png`, `outputs/evaluation-performance.png`).
 
+### Interactive Visualization Notebook
+
+For interactive exploration of results (zoom, pan, hover over plots), use the
+Jupyter notebook at `interactive_visualization.ipynb`. It provides:
+
+- Dataset overview and statistics
+- Model performance comparison with interactive charts
+- Interactive confusion matrices
+- Image gallery by collection area
+- Hyperparameter tuning visualization
+- Misclassified images viewer
+- Validation vs test performance comparison
+
+See [`docs/visualization.md`](docs/visualization.md) for detailed instructions on
+using the notebook.
+
 Quickstart (from a clean checkout with the image archive in place):
 
 ```bash
